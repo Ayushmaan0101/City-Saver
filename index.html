@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add colors and emojis */
+        .color-red {
+            color: red;
+        }
+        .color-blue {
+            color: blue;
+        }
+        .color-green {
+            color: green;
+        }
+        .color-orange {
+            color: orange;
+        }
+        .emoji {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+    </style>
+    <title>City Saver: The Quest for Love</title>
+</head>
+<body>
+    <div class="game-container">
+        <h1>City Saver: The Quest for Love</h1>
+        <div id="output"></div>
+        <button id="start-button">Start Game</button>
+        <button id="play-again-button" style="display: none;">Play Again</button> <!-- Add Play Again button -->
+    </div>
+    <script>
+        const output = document.getElementById('output');
+        const startButton = document.getElementById('start-button');
+        const playAgainButton = document.getElementById('play-again-button'); // Get the Play Again button
+        let step = 0;
+        let city, name, crushName, gender;
+
+        startButton.addEventListener('click', () => {
+            startButton.style.display = 'none';
+            playAgainButton.style.display = 'none'; // Hide the Play Again button
+            runGame();
+        });
+
+        playAgainButton.addEventListener('click', () => {
+            playAgainButton.style.display = 'none'; // Hide the Play Again button
+            step = 0; // Reset the game
+            output.innerHTML = ''; // Clear the game messages
+            runGame();
+        });
+
+        function showMessage(message) {
+            output.innerHTML += `<p>${message}</p>`;
+        }
+
+        function runGame() {
+            switch (step) {
+                case 0:
+                    showMessage("<span class='color-red'>🌆</span> Enter the name of your city: ");
+                    getUserInput((cityInput) => {
+                        city = cityInput;
+                        showMessage(`City: ${city}`);
+                        step++;
+                        runGame();
+                    });
+                    break;
+                case 1:
+                    showMessage("<span class='color-blue'>👤</span> Enter your Name: ");
+                    getUserInput((nameInput) => {
+                        name = nameInput;
+                        showMessage(`Name: ${name}`);
+                        step++;
+                        runGame();
+                    });
+                    break;
+                case 2:
+                    showMessage("<span class='color-green'>❤️</span> Enter your Crush Name: ");
+                    getUserInput((crushNameInput) => {
+                        crushName = crushNameInput;
+                        showMessage(`Crush Name: ${crushName}`);
+                        step++;
+                        runGame();
+                    });
+                    break;
+                case 3:
+                    showMessage("<span class='color-orange'>⚡</span> Enter your gender: Male/Female? ");
+                    getUserInput((genderInput) => {
+                        gender = genderInput.toUpperCase();
+                        showMessage(`Gender: ${gender}`);
+                        step++;
+                        runGame();
+                    });
+                    break;
+                case 4:
+                    if (gender === 'MALE') {
+                        showMessage(`Sorry, ${name} but ${crushName} has been surrounded by some Bad guys in ${city.toUpperCase()}, now your mission is to save her.`);
+
+                        showMessage("<span class='emoji'>🚀</span> Would you like to save her: Yes/No? ");
+                        getUserInput((userChoice) => {
+                            if (userChoice.toUpperCase() === 'YES') {
+                                showMessage("Let's go and save her.");
+                                step++;
+                            } else {
+                                showMessage("She got caught by those guys. 'GAME OVER'");
+                                step = 99; // Game over, set a value to indicate the end
+                                playAgainButton.style.display = 'block'; // Display the Play Again button
+                            }
+                            runGame();
+                        });
+                    } else {
+                        showMessage(`Sorry, ${name} but ${crushName} has been surrounded by some Bad girls in ${city.toUpperCase()}, now your mission is to save him.`);
+
+                        showMessage("<span class='emoji'>🚀</span> Would you like to save him: Yes/No? ");
+                        getUserInput((userChoice) => {
+                            if (userChoice.toUpperCase() === 'YES') {
+                                showMessage("Let's go and save him.");
+                                step++;
+                            } else {
+                                showMessage("He got caught by those girls. 'GAME OVER'");
+                                step = 99; // Game over, set a value to indicate the end
+                                playAgainButton.style.display = 'block'; // Display the Play Again button
+                            }
+                            runGame();
+                        });
+                    }
+                    break;
+                case 5:
+                    showMessage("<span class='emoji'>🌟</span> You are on a road and you have two paths (Right/Left). Choose one:");
+                    getUserInput((roadChoice) => {
+                        roadChoice = roadChoice.toUpperCase();
+                        if (roadChoice === 'RIGHT') {
+                            showMessage("You crossed 'level 1'. Now you have reached a nearby garden.");
+
+                            showMessage("<span class='emoji'>🌟</span> Would you like to continue going on the road or would you like to take a shortcut via the garden? (Shortcut/Continue):");
+                            getUserInput((gardenChoice) => {
+                                gardenChoice = gardenChoice.toUpperCase();
+                                if (gardenChoice === 'CONTINUE') {
+                                    showMessage("Hurray! You crossed 'level 2'.");
+
+                                    showMessage("<span class='emoji'>🌟</span> I think you might be feeling thirsty. There is a water store nearby. Would you like to have some water? (Yes/No):");
+                                    getUserInput((waterChoice) => {
+                                        waterChoice = waterChoice.toUpperCase();
+                                        if (waterChoice === 'NO') {
+                                            showMessage("Well done! You are playing quite well. You also crossed 'level 3'.");
+
+                                            showMessage("<span class='emoji'>🌟</span> Oh yeah, there is a weapon shop in front of you. I think it's a good idea to buy a weapon. But the shop only has a gun and a sword. What would you pick? (Gun/Sword):");
+                                            getUserInput((weaponChoice) => {
+                                                weaponChoice = weaponChoice.toUpperCase();
+                                                if (weaponChoice === 'SWORD') {
+                                                    showMessage(`Congrats! ${name} You saved ${crushName} from those bad guys. So, ${crushName} got impressed by your bravery and agreed to have a relationship with you.`);
+                                                    step++;
+                                                    playAgainButton.style.display = 'block'; // Display the Play Again button
+                                                } else {
+                                                    showMessage("Shit! You forgot to buy the bullets. They captured you. 'GAME OVER'");
+                                                    step = 99; // Game over, set a value to indicate the end
+                                                    // Display ASCII Art of poison
+                                                    showMessage(`<pre>\
+     ⢿⣿⣿⣿⠀⠀⠀⢀⣀⣠⣤⣄⠀⢿⣿⣿⣿⠇⠀
+    ⠀⠀⠀⠀⠈⣉⣩⣥⣶⣶⣿⣿⣿⡿⠿⠋⣀⣀⣉⣉⡁⠀⠀
+    ⠀⠀⣠⣾⣿⣿⣿⣿⣿⡟⠛⠋⠉⠀⣠⣴⣿⣿⣿⣿⣿⣧⠀
+    ⣴⣾⣿⣿⣿⣿⣿⣿⢁⣤⣶⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⠀
+    ⠻⠿⣿⣿⣿⣿⣿⠇⠈⠻⠟⠋⠉⠁⢰⣿⣿⣿⣿⣿⣿⡿⠂
+    ⠀⢠⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⡏⠀⠀⠀⠀
+    ⠀⣸⣿⣿⠟⣿⣿⣧⠀⠀⠀⠀⣰⣿⣿⡿⣿⣿⣷⠀⠀⠀⠀
+    ⠀⣿⣿⡟⠀⠘⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⢿⣿⣧⠀⠀⠀
+    ⣰⣿⣿⠃⠀⠀⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⠘⣿⣿⡆⠀⠀
+    ⣿⣿⠇⠀⠀⠀⣿⣿⡇⠀⠀⢸⣿⣿⠀⠀⠀⠸⣿⣿⡄⠀⠀
+    ⠉⠉⠀⠀⠀⠀⠈⠉⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⠈⠉⠀⠀⠀ /pre>`);
+                                                }
+                                                runGame();
+                                            });
+                                        } else {
+                                            showMessage("Ohh! There was poison in the water. 'GAME OVER'");
+                                            step = 99; // Game over, set a value to indicate the end
+                                            // Display ASCII Art of poison
+                                            showMessage(`<pre>\
+    _________
+   [_________]
+    |  .-.  |
+    |,(o.o).|
+    | >|n|< |
+    |\` \`"\` \`|
+    |POISON!|
+--- \`"""""""\`</pre>`);
+                                        }
+                                    });
+                                } else {
+                                    showMessage("Ohh! You stepped on a snake. 'GAME OVER'");
+                                    step = 99; // Game over, set a value to indicate the end
+                                    // Display ASCII Art of a snake
+                                    showMessage(`<pre>\
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡉⠙⣻⣷⣶⣤⣀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⡿⠋⠀⠀⠀⠀⢹⣿⣿⣿⡟⠉⠉⠉⢻⡿⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠰⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⣿⣿⣇⠀⠀⠀⠈⠇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠉⠛⠿⣷⣤⡤⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣶⣦⣤⣤⣀⣀⣀⡀⠉⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠙⠛⠿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      ⢻⣿⣿⣿⣿⣿⠀⠀
+⠀⠀</pre>`);
+                                }
+                            });
+                        } else {
+                            showMessage("You chose the wrong path. You became Breakfast for street Dogs.  'GAME OVER'");
+                            step = 99; // Game over, set a value to indicate the end
+                            // Display ASCII Art of street dogs
+                            showMessage("<pre>\
+     |\_/|                  \n\
+     | @ @   Woof!          \n\
+     |   <>              _  \n\
+     |  _/\------____ ((| |))\n\
+     |               `--' |   \n\
+ ____|_       ___|   |___.'  \n\
+/_/_____/____/_______|        \n\
+</pre>");
+                        }
+                    });
+                    break;
+                case 99:
+                    // Game Over
+                    showMessage("<h2>Game Over!</h2>");
+                    playAgainButton.style.display = 'block'; // Display the Play Again button
+                    break;
+            }
+        }
+
+        function getUserInput(callback) {
+            const input = document.createElement('input');
+            const submit = document.createElement('button');
+            input.setAttribute('type', 'text');
+            input.setAttribute('id', 'user-input');
+            submit.setAttribute('id', 'submit-button');
+            submit.textContent = 'Submit';
+            output.appendChild(input);
+            output.appendChild(submit);
+
+            submit.addEventListener('click', () => {
+                const userResponse = input.value.trim();
+                input.remove();
+                submit.remove();
+                callback(userResponse);
+            });
+        }
+    </script>
+</body>
+</html>
